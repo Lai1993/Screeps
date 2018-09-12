@@ -1,3 +1,5 @@
-var rolePairer = {
+var roleRepairer = {
+	run: function(creep){
+	}
 };
 module.exports = roleRepairer;

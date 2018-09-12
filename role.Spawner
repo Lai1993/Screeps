@@ -8,7 +8,7 @@ var roleSpawner = {
 			}
 		}
 		//1.非生產中且足夠資源
-		if(!Game.spawns['Spawn1'].spawning && Game.spawns['Spawn1'].room.energyAvailable > 300){
+		if(!Game.spawns['Spawn1'].spawning && Game.spawns['Spawn1'].room.energyAvailable > 300 && false){
 			//2.優先度由低至高判斷
 			var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrder');
 			var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');

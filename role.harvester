@@ -1,2 +1,5 @@
-var roleHarvester = {};
+var roleHarvester = {
+	run: function(creep){
+	}
+};
 module.exports = roleHarvester;

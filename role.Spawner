@@ -1,0 +1,9 @@
+var roleSpawner = {
+	run: function(){
+		//1.非生產中且足夠資源
+		if(!Game.spawns['Spawn1'].spawning && Game.spawns['Spawn1'].room.energyAvailable > 300){
+			//2.優先度由低至高判斷
+			var jobs = []
+		}
+	}
+};

@@ -1,10 +1,47 @@
+var infoText = require('infotext');
 var roleSpawner = require('role.spawner');
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
+var roleCarrier = require('role.carrier');
+var roleSoldier = require('role.soldier');
+var armyTower = require('army.tower');
 
 module.exports.loop = function(){
+    var order = 0;
+    infoText.run();
+	roleSpawner.run();
+    for(var name in Game.creeps){
+        var creep = Game.creeps[name];
+        if(creep.memory.role == 'harvester'){
+            roleHarvester.run(creep);
+        }
+        else if(creep.memory.role == 'upgrader'){
+            roleUpgrader.run(creep);
+        }
+        else if(creep.memory.role == 'builder'){
+            roleBuilder.run(creep);
+        }
+    }
+    /*
+    var order = 0,buildseq = 0,upgradeteam = 0;
+    //
+    var tar = Game.rooms['W1N29'].find(FIND_STRUCTURES,{
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_CONTAINER && structure.pos.x != 43)
+        }
+    });
+    //console.log(tar)
+    var con = [tar[0].store[RESOURCE_ENERGY],tar[1].store[RESOURCE_ENERGY]];
+    if(!Memory.takeorder && tar[0].store[RESOURCE_ENERGY] + 500 < tar[1].store[RESOURCE_ENERGY]){    //當tar[1]比tar[0]還多500時，優先拿tar[1]
+        Memory.takeorder = true;
+    }
+    if( Memory.takeorder && tar[1].store[RESOURCE_ENERGY] + 500 < tar[0].store[RESOURCE_ENERGY]){
+        Memory.takeorder = false;
+    }
+    //
+    infoText.run(con);
 	roleSpawner.run();
 	for(var name in Game.creeps){
 		var creep = Game.creeps[name];
@@ -13,12 +50,23 @@ module.exports.loop = function(){
 		}
 		else if(creep.memory.role == 'upgrader'){
 			roleUpgrader.run(creep);
+			upgradeteam++;
 		}
 		else if(creep.memory.role == 'builder'){
-			roleBuilder.run(creep);
+			roleBuilder.run(creep,buildseq);
+			buildseq++;
 		}
 		else if(creep.memory.role == 'repairer'){
-			roleRepairer.run(creep);
+			roleRepairer.run(creep,order);
+			order++;
+		}
+		else if(creep.memory.role == 'carrier'){
+			roleCarrier.run(creep);
+		}
+		else if(creep.memory.role == 'soldier'){
+		    roleSoldier.run(creep);
 		}
 	}
+	armyTower()
+	*/
 }

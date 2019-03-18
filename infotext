@@ -1,0 +1,14 @@
+var infoText = {
+    run: function(){
+        var roomname = 'W1N29';
+        new RoomVisual(roomname).text("能　量：" + Game.spawns['Spawn1'].room.energyAvailable + '/' + Game.spawns['Spawn1'].room.energyCapacityAvailable,0,0,{align:'left'});
+        //new RoomVisual(roomname).text("倉　庫：" + Game.spawns['Spawn1'].room.storage.store[RESOURCE_ENERGY],0,1,{align:'left'});
+        new RoomVisual(roomname).text("採集者：" + _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester').length, 0,2,{align:'left'});
+        new RoomVisual(roomname).text("運輸者：" + _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier'  ).length, 0,3,{align:'left',color:'#30FFFF'});
+        new RoomVisual(roomname).text("維修者：" + _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer' ).length, 0,4,{align:'left',color:'#00DD00'});
+        new RoomVisual(roomname).text("建造者：" + _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'  ).length, 0,5,{align:'left',color:'#FFFF00'});
+        new RoomVisual(roomname).text("升級者：" + _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' ).length, 0,6,{align:'left'});
+        //new RoomVisual(roomname).text("倉庫(" + Memory.takeorder + "):" + con[0] + ',' + con[1], 0,7,{align:'left'});
+    }
+};
+module.exports = infoText;

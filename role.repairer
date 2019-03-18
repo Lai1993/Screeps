@@ -1,5 +1,57 @@
 var roleRepairer = {
-	run: function(creep){
+	run: function(creep,order){
+		creep.room.visual.circle(creep.pos,
+			{fill: 'transparent', radius: 0.55, stroke: '#00DD00'});
+		//判斷工作內容
+	    if(!creep.memory.working && creep.carry.energy == creep.carryCapacity){
+	        creep.memory.working = true;
+	        creep.say("Repair");
+	    }
+	    if( creep.memory.working && creep.carry.energy == 0){
+	        creep.memory.working = false;
+	        creep.say("Take");
+	    }
+	    if( creep.memory.working){
+			//取得維修對象
+			var target = Game.getObjectById(creep.memory.target)
+			if( !target || target.hits > target.hitsMax - 1000 || (target.hits >= 50000 && target.structureType != STRUCTURE_CONTAINER)){
+				var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+	                filter: structure => {
+	                    return (structure.structureType == STRUCTURE_CONTAINER && structure.hits < structure.hitsMax)
+	                }
+				});
+				creep.say('target')
+				if(!target){	//當Container不須修理
+					target = creep.room.find(FIND_STRUCTURES, {
+						filter: structure => {
+							return structure.hits <= structure.hitsMax - 1000 && structure.hits < 50000
+						}
+					}).sort( (a,b) => a.hits - b.hits)[order]
+				}
+				//console.log(target+'('+target.hits+')')
+				creep.memory.target = target.id
+			}
+			//依照耐久度排序，從最低開始修理
+	        //targets.sort( (a,b) => a.hits - b.hits)
+			if(creep.repair(target) == ERR_NOT_IN_RANGE){
+				creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+			}
+	    }
+		else if(creep.room.energyAvailable >= creep.room.energyCapacityAvailable - 500){
+			//1.優先從store取得
+			var target = Game.getObjectById('5b9e7d95c84f904d3cccfd4a')
+			if(target.store[RESOURCE_ENERGY] < creep.carryCapacity){
+				if(Memory.takeorder){
+					var target = Game.getObjectById('5b9dfbed5d439a46dcd1f60c')
+				}
+				else{
+					var target = Game.getObjectById('5b9ccee8f2b3a923f374ee8d')
+				}
+			}
+			if(creep.withdraw(target,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+				creep.moveTo(target, {visualizePathStyle: {stroke: 'yellow'}});
+			}
+		}
 	}
 };
 module.exports = roleRepairer;

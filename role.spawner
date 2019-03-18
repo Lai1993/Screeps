@@ -1,41 +1,49 @@
 var roleSpawner = {
 	run: function(){
-		//0.清除無用的記憶體
 		for(var name in Memory.creeps){
 			if(!Game.creeps[name]){
 				delete Memory.creeps[name];
 				console.log('Clearing null memory : '+ name);
 			}
 		}
-		//1.非生產中且足夠資源
-		if(!Game.spawns['Spawn1'].spawning && Game.spawns['Spawn1'].room.energyAvailable > 300 && false){
-			//2.優先度由低至高判斷
-			var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrder');
+		//console.log(Game.spawns['Spawn1'].room.energyAvailable);
+		if(!Game.spawns['Spawn1'].spawning && Game.spawns['Spawn1'].room.energyAvailable >= 250){
+			var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
 			var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
 			var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 			var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-			if(harvesters.length < 4){
+			var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier');
+			
+			if(carriers.length < 0){   //use 450 energy
+				var newName = 'Carrier' + Game.time;
+				console.log('Spawning new carrier : ' + newName);
+				Game.spawns['Spawn1'].spawnCreep( [CARRY,CARRY,MOVE] , newName ,{
+					memory:{role:'carrier',working:false}
+				});
+			}
+			else if(harvesters.length < 4){      //use 550 energy
 				var newName = 'Harvester' + Game.time;
 				console.log('Spawning new harvester : ' + newName);
-				Game.spawns['Spawn1'].spawnCreep( [WORK,CARRY,MOVE] , newName ,{
-					memory:{role:'harvester',working:false}
+				Game.spawns['Spawn1'].spawnCreep( [WORK,WORK,CARRY,CARRY,MOVE,MOVE] , newName ,{
+					memory:{role:'harvester',working:false,team:Memory.team}
 				});
+				Memory.team = Memory.team ^1;
 			}
-			else if(builders.length < 2){
-				var newName = 'Builder' + Game.time;
-				console.log('Spawning new builder : ' + newName);
-				Game.spawns['Spawn1'].spawnCreep( [WORK,CARRY,MOVE] , newName ,{
-					memory:{role:'builder',working:false}
-				});
-			}
-			else if(repairers.length < 2){
+			else if(repairers.length < 0){  //use 650 energy
 				var newName = 'Repairer' + Game.time;
 				console.log('Spawning new repairer : ' + newName);
 				Game.spawns['Spawn1'].spawnCreep( [WORK,CARRY,MOVE] , newName ,{
 					memory:{role:'repairer',working:false}
 				});
 			}
-			else if(upgraders.length < 2){
+			else if(builders.length < 1){   //use 650 energy
+				var newName = 'Builder' + Game.time;
+				console.log('Spawning new builder : ' + newName);
+				Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE] , newName ,{
+					memory:{role:'builder',working:false}
+				});
+			}
+			else if(upgraders.length < 2){  //use 700 energy
 				var newName = 'Upgrader' + Game.time;
 				console.log('Spawning new upgrader : ' + newName);
 				Game.spawns['Spawn1'].spawnCreep( [WORK,CARRY,MOVE] , newName ,{

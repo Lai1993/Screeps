@@ -1,0 +1,58 @@
+var roleCarrier = {
+	run: function(creep){
+		creep.room.visual.circle(creep.pos,
+			{fill: 'transparent', radius: 0.55, stroke: '#30FFFF'});
+		if(!creep.memory.working && creep.carry.energy == creep.carryCapacity){
+			creep.memory.working = true;
+			creep.say("Carry");
+		}
+		if( creep.memory.working && creep.carry.energy == 0){
+			creep.memory.working = false;
+			creep.say("Get");
+		}
+		if( creep.memory.working){
+			//1.優先送到SPAWN
+			var target = Game.spawns['Spawn1']
+			if(target.energy == target.energyCapacity){
+				//2.送到extension
+				target = creep.pos.findClosestByPath(FIND_STRUCTURES,{
+					filter: (structure) => {
+						return structure.structureType == STRUCTURE_EXTENSION &&
+						structure.energy < structure.energyCapacity
+					}
+				})
+				if(!target){
+					//3.送到TOWER
+					target = Game.getObjectById('5b9f50a6fae40a6287e50425')     //tower
+					if(target.energy >= target.energyCapacity){
+						//4.送到upgrade container
+						target = Game.getObjectById('5b9f527657bd500a057695d0')     //upgrade container(40,27)
+						if(target.store[RESOURCE_ENERGY] >= target.storeCapacity - creep.carry.energy){
+							//5.送到storage
+							target = Game.getObjectById('5b9e7d95c84f904d3cccfd4a') //storage
+						}
+					}
+				}
+			}
+			if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+				creep.moveTo(target, {visualizePathStyle:{stroke:'#30FFFF'}});
+			}
+		}
+		else{
+			if(Memory.takeorder){
+				var target = Game.getObjectById('5b9dfbed5d439a46dcd1f60c')	//container(7,11)
+			}
+			else{
+				var target = Game.getObjectById('5b9ccee8f2b3a923f374ee8d')	//container(11,23)
+			}
+			if(creep.room.energyAvailable < creep.room.energyCapacityAvailable && 
+				target.store[RESOURCE_ENERGY] <= creep.carryCapacity){
+				var target = Game.getObjectById('5b9e7d95c84f904d3cccfd4a')	//Storage
+			}
+			if(creep.withdraw(target,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+				creep.moveTo(target, {visualizePathStyle: {stroke: '#30FFFF'}});
+			}
+		}
+	}
+};
+module.exports = roleCarrier;

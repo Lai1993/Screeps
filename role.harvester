@@ -1,5 +1,41 @@
 var roleHarvester = {
 	run: function(creep){
+		//判斷工作內容
+		if(!creep.memory.working && creep.carry.energy == 0){
+			creep.memory.working = true;
+			creep.say("Harvest");
+		}
+		if( creep.memory.working && creep.carry.energy == creep.carryCapacity){
+			creep.memory.working = false;
+			creep.say("Store");
+		}
+		if( creep.memory.working){
+			//依照分組對能源進行採集
+			var sources = creep.room.find(FIND_SOURCES);
+			var i = creep.memory.team;
+			if(creep.harvest(sources[i]) == ERR_NOT_IN_RANGE){
+				creep.moveTo(sources[i]);
+			}
+		}
+		else{
+			//將採集的能源放置到各種容器中
+			//1.優先放置到所屬容器中
+			//2.若容器不存在，則放置到spawn和container
+			//1.優先送到SPAWN
+			var target = Game.spawns['Spawn1']
+			if(target.energy == target.energyCapacity){
+				//2.送到extension
+				target = creep.pos.findClosestByPath(FIND_STRUCTURES,{
+					filter: (structure) => {
+						return structure.structureType == STRUCTURE_EXTENSION &&
+						structure.energy < structure.energyCapacity
+					}
+				})
+			}
+			if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+				creep.moveTo(target, {visualizePathStyle:{stroke:'#30FFFF'}});
+			}
+		}
 	}
 };
 module.exports = roleHarvester;

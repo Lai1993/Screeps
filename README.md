@@ -1,13 +1,13 @@
 # Screeps
 Novice Code, you can give me some idea by English or Chinese, thanks.
 
-é‹ä½œæ€è·¯ï¼š
+¹B§@«ä¸ô¡G
 
-1.é¦–å…ˆåˆ¤æ–·ç›®å‰çš„æœ€å¤§å­˜é‡ï¼Œæ±ºå®šé‹è¡Œæ¨¡å¼
+1.­º¥ı§PÂ_¥Ø«eªº³Ì¤j¦s¶q¡A¨M©w¹B¦æ¼Ò¦¡
 
-mode 1 : æ‹“è’ RCL 1,2(max 300 ~ 300)
-	æè¿°ï¼š
-mode 2 : åˆæœŸ RCL 3,4(max 300 ~ 550)
-mode 3 : ç™¼å±• RCL 5,6(max 550 ~ storage)
-mode 4 : å„ªåŒ– RCL 7
-mode 5 : å¾ŒæœŸ RCL 8
+mode 1 : ©İ¯î RCL 1,2(max 300 ~ 300)
+	´y­z¡G
+mode 2 : ªì´Á RCL 3,4(max 300 ~ 550)
+mode 3 : µo®i RCL 5,6(max 550 ~ storage)
+mode 4 : Àu¤Æ RCL 7
+mode 5 : «á´Á RCL 8

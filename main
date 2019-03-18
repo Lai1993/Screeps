@@ -5,8 +5,8 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 var roleCarrier = require('role.carrier');
-var roleSoldier = require('role.soldier');
-var armyTower = require('army.tower');
+//var roleSoldier = require('role.soldier');
+//var armyTower = require('army.tower');
 
 module.exports.loop = function(){
     var order = 0;

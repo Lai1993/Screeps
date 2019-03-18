@@ -1,7 +1,7 @@
 var infoText = {
     run: function(){
         var roomname = 'W1N29';
-        new RoomVisual(roomname).text("能　量：" + Game.spawns['Spawn1'].room.energyAvailable + '/' + Game.spawns['Spawn1'].room.energyCapacityAvailable,0,0,{align:'left'});
+        new RoomVisual(roomname).text("能量\u26a1：" + Game.spawns['Spawn1'].room.energyAvailable + '/' + Game.spawns['Spawn1'].room.energyCapacityAvailable,0,0,{align:'left'});
         //new RoomVisual(roomname).text("倉　庫：" + Game.spawns['Spawn1'].room.storage.store[RESOURCE_ENERGY],0,1,{align:'left'});
         new RoomVisual(roomname).text("採集者：" + _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester').length, 0,2,{align:'left'});
         new RoomVisual(roomname).text("運輸者：" + _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier'  ).length, 0,3,{align:'left',color:'#30FFFF'});

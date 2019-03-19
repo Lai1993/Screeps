@@ -14,7 +14,7 @@ var roleSpawner = {
 			var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 			var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier');
 			
-			if(carriers.length < 0){   //use 450 energy
+			if(carriers.length < 1){   //use 450 energy
 				var newName = 'Carrier' + Game.time;
 				console.log('Spawning new carrier : ' + newName);
 				Game.spawns['Spawn1'].spawnCreep( [CARRY,CARRY,MOVE] , newName ,{

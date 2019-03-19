@@ -49,6 +49,7 @@ var roleCarrier = {
 				target.store[RESOURCE_ENERGY] <= creep.carryCapacity){
 				var target = Game.getObjectById('5b9e7d95c84f904d3cccfd4a')	//Storage
 			}
+			var target = Game.spawns['Spawn1']
 			if(creep.withdraw(target,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
 				creep.moveTo(target, {visualizePathStyle: {stroke: '#30FFFF'}});
 			}

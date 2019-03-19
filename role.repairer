@@ -39,15 +39,7 @@ var roleRepairer = {
 	    }
 		else if(creep.room.energyAvailable >= creep.room.energyCapacityAvailable - 500){
 			//1.優先從store取得
-			var target = Game.getObjectById('5b9e7d95c84f904d3cccfd4a')
-			if(target.store[RESOURCE_ENERGY] < creep.carryCapacity){
-				if(Memory.takeorder){
-					var target = Game.getObjectById('5b9dfbed5d439a46dcd1f60c')
-				}
-				else{
-					var target = Game.getObjectById('5b9ccee8f2b3a923f374ee8d')
-				}
-			}
+			var target = Game.spawn["Spawn1"];
 			if(creep.withdraw(target,RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
 				creep.moveTo(target, {visualizePathStyle: {stroke: 'yellow'}});
 			}

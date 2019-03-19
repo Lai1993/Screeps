@@ -21,18 +21,29 @@ var roleHarvester = {
 			//將採集的能源放置到各種容器中
 			//1.優先放置到所屬容器中
 			//2.若容器不存在，則放置到spawn和container
-			//1.優先送到SPAWN
-			var target = Game.spawns['Spawn1']
-			if(target.energy == target.energyCapacity){
-				//2.送到extension
-				target = creep.pos.findClosestByPath(FIND_STRUCTURES,{
-					filter: (structure) => {
-						return structure.structureType == STRUCTURE_EXTENSION &&
-						structure.energy < structure.energyCapacity
-					}
-				})
+			if(creep.memory.team){	//尋找所屬容器
+				var target = Game.getObjectById('5c8f0a5ec533655f35a225e0');
 			}
-			if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+			else{
+				var target = Game.getObjectById('5c8eccf9ea5a1a393d601f63');
+			}
+			if(!target){
+				target = Game.spawns['Spawn1'];
+				if(target.energy == target.energyCapacity){
+					//2.送到extension
+					target = creep.pos.findClosestByPath(FIND_STRUCTURES,{
+						filter: (structure) => {
+							return structure.structureType == STRUCTURE_EXTENSION &&
+							structure.energy < structure.energyCapacity
+						}
+					})
+					if(!target){
+						target = Game.spawns['Spawn1'];
+					}
+				}
+			}
+			
+			if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE ){
 				creep.moveTo(target, {visualizePathStyle:{stroke:'#30FFFF'}});
 			}
 		}
